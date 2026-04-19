@@ -89,27 +89,57 @@
       font-family: 'Inter', sans-serif;
       font-size: 18px; font-weight: 700;
       letter-spacing: 0.12em;
-      color: var(--green-deep);
+      color: #fff;
+      transition: color 0.4s;
     }
-    .logo-text span { color: var(--green-soft); }
+    .logo-text span { color: rgba(255,255,255,0.75); }
+    #header.scrolled .logo-text { color: var(--green-deep); }
+    #header.scrolled .logo-text span { color: var(--green-soft); }
+    #header.scrolled #headerLogo { filter: none !important; }
     nav {
       display: flex; gap: 40px; align-items: center;
       opacity: 0;
     }
     nav a {
       font-size: 12px; font-weight: 500;
-      letter-spacing: 0.1em; color: var(--dark);
+      letter-spacing: 0.1em; color: rgba(255,255,255,0.9);
       position: relative; transition: color 0.2s;
     }
     nav a::after {
       content: ''; position: absolute;
       bottom: -3px; left: 0; right: 0; height: 1px;
-      background: var(--green-deep);
+      background: #fff;
       transform: scaleX(0); transform-origin: left;
       transition: transform 0.3s ease;
     }
-    nav a:hover { color: var(--green-deep); }
+    nav a:hover { color: #fff; }
+    #header.scrolled nav a { color: var(--dark); }
+    #header.scrolled nav a::after { background: var(--green-deep); }
+    #header.scrolled nav a:hover { color: var(--green-deep); }
+    @keyframes buynow-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(44,95,46,0.5); }
+      70%  { box-shadow: 0 0 0 8px rgba(44,95,46,0); }
+      100% { box-shadow: 0 0 0 0 rgba(44,95,46,0); }
+    }
+    @keyframes buynow-shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .nav-buynow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; color: #fff !important;
+      background: linear-gradient(90deg, var(--green-deep) 0%, #3a7d3c 40%, #80af3a 60%, var(--green-deep) 100%);
+      background-size: 200% auto;
+      padding: 9px 20px; border-radius: 2px;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+      white-space: nowrap;
+      animation: buynow-pulse 2s ease-out infinite, buynow-shimmer 3s linear infinite;
+    }
+    .nav-buynow::after { display: none !important; }
+    .nav-buynow:hover { transform: translateY(-2px) scale(1.04) !important; box-shadow: 0 6px 20px rgba(44,95,46,0.4) !important; }
     nav a:hover::after { transform: scaleX(1); }
+    .header-right { display: none; align-items: center; gap: 12px; }
+    .mobile-buynow { display: none; animation: buynow-pulse 2s ease-out infinite, buynow-shimmer 3s linear infinite; }
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
       cursor: pointer; padding: 4px;
@@ -129,10 +159,13 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(151,188,98,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(44,95,46,0.10) 0%, transparent 60%),
-        linear-gradient(160deg, #EEF5E8 0%, #F9F7F3 40%, #F0ECE4 100%);
+      background: #000;
+    }
+    .hero-bg video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
     }
     /* parallax layer */
     .hero-parallax-circle {
@@ -168,7 +201,7 @@
     }
     .hero-kw span {
       font-size: 11px; font-weight: 500;
-      letter-spacing: 0.12em; color: var(--green-deep);
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.85);
       border: 1px solid rgba(44,95,46,0.4);
       padding: 4px 14px; border-radius: 20px;
       opacity: 0; /* GSAP */
@@ -178,18 +211,18 @@
       font-family: 'DM Serif Display', 'Noto Serif KR', serif;
       font-size: clamp(38px, 6.5vw, 88px);
       font-weight: 400; line-height: 1.1;
-      color: var(--dark); margin-bottom: 12px;
+      color: #fff; margin-bottom: 12px;
       letter-spacing: -0.01em;
       overflow: hidden;
     }
-    .hero-title em { font-style: italic; color: var(--green-deep); }
+    .hero-title em { font-style: italic; color: var(--green-soft); }
     /* Each line is wrapped for reveal */
     .line-wrap { overflow: hidden; display: block; }
     .line-inner { display: block; transform: translateY(110%); }
 
     .hero-subtitle {
       font-size: clamp(13px, 1.8vw, 17px);
-      font-weight: 300; color: var(--gray);
+      font-weight: 300; color: rgba(255,255,255,0.8);
       line-height: 1.8; margin-bottom: 52px;
       opacity: 0; letter-spacing: 0.02em;
     }
@@ -922,25 +955,52 @@
       .values-grid { grid-template-columns: repeat(2,1fr); }
       .about-header { flex-direction: column; align-items: flex-start; gap: 16px; }
       .about-header-sub { text-align: left; max-width: 100%; }
-      .about-main, .philosophy-inner { grid-template-columns: 1fr; gap: 48px; }
+      .about-main { flex-direction: column; gap: 40px; }
+      .about-gallery-wrap { flex: none; width: 100%; }
+      .philosophy-inner { grid-template-columns: 1fr; gap: 48px; }
       .story-header { grid-template-columns: 1fr; gap: 28px; }
     }
     @media (max-width: 768px) {
-      section { padding: 80px 5%; }
+      section { padding: 60px 5%; }
+      #header { padding: 0 5%; }
       nav { display: none; }
+      nav a { color: var(--dark) !important; font-size: 15px; }
+      nav a:hover { color: var(--green-deep) !important; }
+      nav .nav-buynow { display: none; }
+      .header-right { display: flex; }
+      .mobile-buynow { display: block; font-size: 10px; padding: 7px 14px; }
       .hamburger { display: flex; }
+      .hamburger span { background: #fff; }
+      #header.scrolled .hamburger span { background: var(--dark); }
       .hero-pet { display: none; }
       .brands-grid { grid-template-columns: 1fr; }
       .values-grid { grid-template-columns: 1fr 1fr; }
       .about-moments { grid-template-columns: 1fr; }
+      .story-cards { grid-template-columns: 1fr; }
+      .about-gallery-wrap { flex: none; width: 100%; }
+      .about-video-wrap { width: 100%; }
+      .philosophy-inner { grid-template-columns: 1fr; }
+      .philosophy-visual { display: none; }
       .footer-inner { flex-direction: column; gap: 32px; }
-      .footer-links { align-items: flex-start; }
-      .footer-bottom { flex-direction: column; gap: 16px; }
+      .footer-right { align-items: flex-start; }
+      .footer-links { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
       .brands-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .section-title { font-size: clamp(28px, 7vw, 48px); }
+      .brand-card-img { aspect-ratio: 3/2; }
+      .story-card-img { aspect-ratio: 16/9; }
     }
     @media (max-width: 480px) {
+      section { padding: 48px 5%; }
       .values-grid { grid-template-columns: 1fr; }
-      .hero-kw { flex-wrap: wrap; }
+      .hero-kw { flex-wrap: wrap; gap: 8px; }
+      .hero-kw span { font-size: 10px; padding: 5px 10px; }
+      .brands-grid { grid-template-columns: 1fr; gap: 16px; }
+      .about-moments { grid-template-columns: 1fr; gap: 16px; }
+      .footer-info-item { font-size: 11px; }
+      .footer-copy { font-size: 11px; }
+      #header { height: 60px; }
+      .nav-buynow { padding: 7px 14px; font-size: 10px; }
     }
   </style>
 </head>
@@ -962,32 +1022,33 @@
   <!-- ── HEADER ─────────────────────────────── -->
   <header id="header">
     <a href="#" class="logo">
-      <img src="./images/logo.png" alt="CHITOWORLD" style="height:36px; width:auto; display:block;">
+      <img src="./images/logo.png" alt="CHITOWORLD" id="headerLogo" style="height:36px; width:auto; display:block; filter: brightness(0) invert(1); transition: filter 0.4s;">
     </a>
     <nav>
       <a href="#hero">HOME</a>
       <a href="#about">ABOUT</a>
       <a href="#brands">PRODUCT</a>
       <a href="#philosophy">PHILOSOPHY</a>
+      <a href="https://new.oneshop.co.kr/goods/catalog?code=00090020" target="_blank" class="nav-buynow">BUY NOW</a>
     </nav>
-    <div class="hamburger" id="menuBtn">
-      <span></span><span></span><span></span>
+    <div class="header-right">
+      <a href="https://new.oneshop.co.kr/goods/catalog?code=00090020" target="_blank" class="nav-buynow mobile-buynow">BUY NOW</a>
+      <div class="hamburger" id="menuBtn">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   </header>
 
 
   <!-- ── HERO ───────────────────────────────── -->
   <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-parallax-circle c1" data-parallax="0.04"></div>
-    <div class="hero-parallax-circle c2" data-parallax="0.07"></div>
-    <div class="hero-parallax-circle c3" data-parallax="0.05"></div>
-
+    <div class="hero-bg">
+      <video autoplay muted loop playsinline src="./images/hero.mp4"></video>
+    </div>
     <div class="hero-content">
       <div class="hero-kw" id="heroKw">
         <span>#친환경</span>
         <span>#무자극</span>
-        <span>#안전</span>
         <span>#강력탈취</span>
       </div>
 
@@ -1001,21 +1062,8 @@
         자연에서 온 무해한 성분으로 만든 키토월드의 친환경 탈취제
       </p>
 
-      <a href="#about" class="hero-cta">
-        DISCOVER MORE
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
     </div>
 
-    <div class="hero-pet" id="heroPet">
-      <div class="hero-pet-circle">🐾</div>
-      <div class="hero-pet-circle reptile">🦎</div>
-    </div>
-
-    <div class="hero-scroll-indicator" id="heroScroll">
-      <span>SCROLL DOWN</span>
-      <div class="scroll-mouse"></div>
-    </div>
   </section>
 
 
@@ -1095,7 +1143,7 @@
       <div class="about-moments" id="story">
         <div class="story-card">
           <div class="story-card-img sc1" style="padding:0; overflow:hidden;">
-            <video src="./images/친환경.mp4" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;"></video>
+            <img src="./images/친환경.png" style="width:100%; height:100%; object-fit:cover; display:block;">
           </div>
           <div class="story-card-body">
             <div class="story-card-title">친환경 &amp; 지속 가능</div>
@@ -1103,7 +1151,7 @@
         </div>
         <div class="story-card">
           <div class="story-card-img sc2" style="padding:0; overflow:hidden;">
-            <video src="./images/건강.mp4" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;"></video>
+            <img src="./images/건강안전.jpg" style="width:100%; height:100%; object-fit:cover; display:block;">
           </div>
           <div class="story-card-body">
             <div class="story-card-title">건강하고 안전한 제품</div>
@@ -1111,7 +1159,7 @@
         </div>
         <div class="story-card">
           <div class="story-card-img sc3" style="padding:0; overflow:hidden;">
-            <video src="./images/혁신기술.mp4" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;"></video>
+            <img src="./images/혁신.jpg" style="width:100%; height:100%; object-fit:cover; display:block;">
           </div>
           <div class="story-card-body">
             <div class="story-card-title">자연에서 온 혁신 기술</div>
@@ -1809,8 +1857,9 @@
       if (isOpen) {
         gsap.to(nav, { opacity: 0, y: -10, duration: 0.3, onComplete: () => nav.style.display = 'none' });
       } else {
+        const headerH = document.getElementById('header').offsetHeight;
         nav.style.cssText = `display:flex; flex-direction:column; position:fixed;
-          top:72px; left:0; right:0;
+          top:${headerH}px; left:0; right:0;
           background:rgba(249,247,243,0.97); padding:32px 6%; gap:24px;
           backdrop-filter:blur(16px); border-bottom:1px solid rgba(44,95,46,0.08);
           z-index:999; opacity:0;`;
