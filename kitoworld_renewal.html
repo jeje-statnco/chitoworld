@@ -536,11 +536,11 @@
     }
 
     /* ─── Products (stacking-card style) ─────────── */
-    #brands { background: var(--cream); padding: 130px 6%; }
+    #brands { background: var(--cream); padding: 130px 0; }
     .brands-header {
       display: flex; justify-content: center; align-items: center;
       flex-direction: column; text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 48px;
       max-width: 1300px; margin-left: auto; margin-right: auto;
     }
 
@@ -550,25 +550,62 @@
       position: relative;
     }
     .products-banners {
-      max-width: 1300px; margin: 48px auto 0;
+      max-width: 1300px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 16px;
     }
     .products-banner {
       border-radius: 4px; overflow: hidden;
       background: var(--cream-dark);
       min-height: 480px;
+      position: relative;
       display: flex; align-items: center; justify-content: center;
     }
+    .products-banner-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .products-banner-overlay {
+      position: absolute; z-index: 2;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: flex-start;
+      text-align: left;
+      max-width: 1300px; margin: 0 auto;
+      padding: 48px 0 0;
+    }
+    .products-banner-overlay .section-label { color: var(--dark); }
+    .products-banner-overlay .section-label .label-inner { color: var(--dark); }
+    .products-banner-overlay .section-title { color: var(--dark); }
     .products-banner-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
     }
     .products-banner-zoo { background: #dff4f7; }
     .products-banner-pet { background: #edf6d8; }
-    .products-banner-img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
+    .banner-hover-overlay {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      text-align: center; padding: 24px;
+    }
+    .products-banner:hover .banner-hover-overlay { opacity: 1; }
+    .banner-hover-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 400; color: #fff;
+      letter-spacing: 0.05em;
+    }
+    .banner-hover-desc {
+      font-size: clamp(12px, 1.2vw, 15px);
+      font-weight: 300; color: rgba(255,255,255,0.8);
+      letter-spacing: 0.05em;
     }
     .products-banner-placeholder {
+      position: relative; z-index: 2;
       font-size: 13px; font-weight: 500;
       letter-spacing: 0.15em; color: rgba(0,0,0,0.25);
     }
@@ -1243,6 +1280,8 @@
   <!-- ── PRODUCTS ───────────────────────────── -->
   <section id="brands">
     <span class="section-num-accent">02</span>
+
+    <!-- 1. PRODUCTS 타이틀 -->
     <div class="brands-header">
       <div>
         <span class="section-label"><span class="label-inner">PRODUCTS</span></span>
@@ -1252,7 +1291,30 @@
       </div>
     </div>
 
-    <div class="brands-stack-wrapper">
+    <!-- 2. 주 / 펫 배너 -->
+    <div class="products-banners">
+      <div class="products-banner-row">
+        <div class="products-banner products-banner-zoo">
+          <img src="./images/banner_zoo.jpg" alt="Scentfree Zoo Banner" class="products-banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <span class="products-banner-placeholder" style="display:none;">SCENTFREE ZOO</span>
+          <div class="banner-hover-overlay">
+            <div class="banner-hover-title">Scentfree Zoo</div>
+            <div class="banner-hover-desc">파충류, 소동물 냄새 제거에 탁월</div>
+          </div>
+        </div>
+        <div class="products-banner products-banner-pet">
+          <img src="./images/banner_pet.jpg" alt="Scentfree Pet Banner" class="products-banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <span class="products-banner-placeholder" style="display:none;">SCENTFREE PET</span>
+          <div class="banner-hover-overlay">
+            <div class="banner-hover-title">Scentfree Pet</div>
+            <div class="banner-hover-desc">반려동물 대소변 냄새 제거 및 주거공간 탈취</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 상품 카드 3개 -->
+    <div class="brands-stack-wrapper" style="margin-top:48px;">
       <div class="brands-grid">
         <div class="brand-card">
           <div class="brand-card-img bc1">
@@ -1262,7 +1324,7 @@
           <div class="brand-card-body">
             <div class="brand-card-tag" style="color:#5bbecd;">SCENTFREE</div>
             <div class="brand-card-name">Scentfree Zoo</div>
-            <div class="brand-card-desc">동물원·전시 환경에 특화된 무향 케어 라인. 다양한 동물의 예민한 후각을 배려한 친환경 성분으로 구성되었습니다.</div>
+            <div class="brand-card-desc">동물원·전시 환경에 특화된 무향 케어 라인.<br>다양한 동물의 예민한 후각을 배려한 친환경 성분으로 구성되었습니다.</div>
           </div>
         </div>
 
@@ -1274,7 +1336,7 @@
           <div class="brand-card-body">
             <div class="brand-card-tag" style="color:#80af3a;">SCENTFREE</div>
             <div class="brand-card-name">Scentfree Pet</div>
-            <div class="brand-card-desc">반려동물 전용 무향 케어. 향수와 합성 향료 없이 피부 자극 없는 순한 성분으로 일상적인 케어를 도와줍니다.</div>
+            <div class="brand-card-desc">반려동물 전용 무향 케어.<br>합성 향료없이 피부 자극없는 순한 성분으로 일상 케어를 도와줍니다.</div>
           </div>
         </div>
 
@@ -1286,29 +1348,12 @@
           <div class="brand-card-body">
             <div class="brand-card-tag">TEAMMATE</div>
             <div class="brand-card-name">Teammate</div>
-            <div class="brand-card-desc">활동적인 반려동물을 위한 스포츠 케어 라인. 친환경 원료로 운동 후에도 건강하고 상쾌한 컨디션을 유지해줍니다.</div>
+            <div class="brand-card-desc">활동적인 스포츠인을 위한 스포츠 케어 라인.<br>친환경 원료로 운동 후에도 건강하고 상쾌한 컨디션을 유지해줍니다.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 제품 배너 -->
-    <div class="products-banners">
-      <div class="products-banner">
-        <img src="./images/products_banner.png" alt="Products Banner" class="products-banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-        <span class="products-banner-placeholder" style="display:none;">BANNER IMAGE</span>
-      </div>
-      <div class="products-banner-row">
-        <div class="products-banner products-banner-zoo">
-          <img src="./images/banner_zoo.png" alt="Scentfree Zoo Banner" class="products-banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-          <span class="products-banner-placeholder" style="display:none;">SCENTFREE ZOO</span>
-        </div>
-        <div class="products-banner products-banner-pet">
-          <img src="./images/banner_pet.png" alt="Scentfree Pet Banner" class="products-banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-          <span class="products-banner-placeholder" style="display:none;">SCENTFREE PET</span>
-        </div>
-      </div>
-    </div>
   </section>
 
 
